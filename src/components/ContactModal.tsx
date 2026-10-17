@@ -227,7 +227,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
                   type="text"
                   value={formData.service}
                   onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                  placeholder="Es. Sviluppo Sito Web, Render 3D, Grafica, Motion Design..."
+                  placeholder="Es. Sito web, Front-end, Video editing..."
                   className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/15 text-white placeholder-white/30 text-sm focus:outline-none focus:border-red-600 transition-colors"
                 />
               </div>
@@ -279,36 +279,12 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
             </div>
             <div className="flex items-center gap-4">
               <a
-                href="https://twitter.com"
+                href="https://github.com/aryax7ari"
                 target="_blank"
                 rel="noreferrer"
                 className="hover:text-red-500 transition-colors"
               >
-                Twitter / X
-              </a>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-red-500 transition-colors"
-              >
-                Instagram
-              </a>
-              <a
-                href="https://artstation.com"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-red-500 transition-colors"
-              >
-                ArtStation
-              </a>
-              <a
-                href="https://behance.net"
-                target="_blank"
-                rel="noreferrer"
-                className="hover:text-red-500 transition-colors"
-              >
-                Behance
+                GitHub
               </a>
             </div>
           </div>

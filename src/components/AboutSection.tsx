@@ -30,13 +30,13 @@ export const CERTIFICATIONS_DATA: CertificationItem[] = [
   },
   {
     id: 'cert-2',
-    category: 'Sviluppo & Design',
-    title: 'Front-End Development & UI',
-    description: 'Progettazione e sviluppo di interfacce web moderne, responsive design e codice strutturato.',
-    date: '2024',
-    // Inserisci qui il percorso della tua seconda foto:
-    image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1600&q=85',
-    imageAlt: 'Certificazione Front-End Web Development',
+    category: 'Intelligenza Artificiale',
+    title: 'Fondamenti di IA',
+    description: 'Nozioni fondamentali di intelligenza artificiale e dei suoi principali ambiti di applicazione.',
+    date: '',
+    // Aggiungi qui la foto del certificato: importala in cima al file e scrivi image: nomeImport,
+    image: '',
+    imageAlt: 'Certificazione Fondamenti di IA',
   },
 ];
 
@@ -141,8 +141,8 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onContactClick }) =>
                     key={cert.id}
                     whileHover={{ y: -6 }}
                     transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                    onClick={() => setActivePhoto(cert)}
-                    className="group relative rounded-[32px] sm:rounded-[44px] bg-white/[0.03] border border-white/10 overflow-hidden cursor-pointer flex flex-col justify-between hover:border-white/20 transition-all duration-300"
+                    onClick={() => cert.image && setActivePhoto(cert)}
+                    className={`group relative rounded-[32px] sm:rounded-[44px] bg-white/[0.03] border border-white/10 overflow-hidden ${cert.image ? 'cursor-pointer' : 'cursor-default'} flex flex-col justify-between hover:border-white/20 transition-all duration-300`}
                   >
                     {/* Immagine ingrandita (altezza aumentata notevolmente per risaltare la certificazione) */}
                     <div className="relative w-full h-[320px] sm:h-[380px] md:h-[440px] lg:h-[480px] overflow-hidden bg-black/50">
@@ -150,6 +150,8 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onContactClick }) =>
                         <img
                           src={cert.image}
                           alt={cert.imageAlt}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
                         />
                       ) : (
@@ -180,11 +182,13 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onContactClick }) =>
                     <div className="p-6 sm:p-7 md:p-8 flex flex-col justify-between flex-1 bg-[#0C0C0C]">
                       <div>
                         {/* Data pulita (senza "Certificato 01") */}
+                        {cert.date && (
                         <div className="flex items-center gap-2 mb-2">
                           <span className="text-red-500 font-mono text-xs uppercase tracking-wider font-semibold">
                             {cert.date}
                           </span>
                         </div>
+                        )}
                         <h4 className="text-white font-bold uppercase tracking-tight text-xl sm:text-2xl group-hover:text-red-400 transition-colors duration-200">
                           {cert.title}
                         </h4>
@@ -195,9 +199,11 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onContactClick }) =>
 
                       <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs sm:text-sm text-[#88929A]">
                         <span className="font-mono text-xs">Foto Certificazione</span>
+                        {cert.image && (
                         <span className="text-red-500 font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1.5">
                           Ingrandisci foto &rarr;
                         </span>
+                        )}
                       </div>
                     </div>
                   </motion.div>

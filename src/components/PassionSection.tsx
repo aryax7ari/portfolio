@@ -2,6 +2,11 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FadeIn } from './FadeIn.tsx';
 import { AppearingText } from './AppearingText.tsx';
+import imgFormula1 from '../assets/images/formula1_ferrari_1791847301445.jpg';
+import imgFerrovia from '../assets/images/ferrovia_treno_1791847302187.jpg';
+import imgTecnologia from '../assets/images/tecnologia_code_1791847302475.jpg';
+import imgVideo from '../assets/images/video_editing_suite_1791847303714.jpg';
+import imgObiettivi from '../assets/images/obbiettivi_vision_1791847303253.jpg';
 
 interface PassionItem {
   id: number;
@@ -19,7 +24,7 @@ const PASSION_ITEMS: PassionItem[] = [
       'La Formula 1 è una passione nata quando ero bambino e cresciuta insieme a me. Amo il racing, la tecnologia, l\'adrenalina della guida e ogni dettaglio di questo mondo.',
       'Non voglio solo guardarla da fuori. Il mio sogno è viverla da dentro, respirare quell\'ambiente e farne parte un giorno.',
     ],
-    image: '/src/assets/images/formula1_ferrari_1791847301445.jpg',
+    image: imgFormula1,
     imageAlt: 'Formula 1 passione e vettura Ferrari da corsa',
   },
   {
@@ -29,7 +34,7 @@ const PASSION_ITEMS: PassionItem[] = [
       'Fin da bambino, il mondo ferroviario ha sempre suscitato in me una grande curiosità. Mi affascinano i treni, i binari, i segnali, i convogli merci e tutto ciò che rende possibile questo universo fatto di tecnologia, ingegneria e movimento.',
       'Non sono semplici treni che passano, ma un mondo che non ho mai smesso di voler scoprire.',
     ],
-    image: '/src/assets/images/ferrovia_treno_1791847302187.jpg',
+    image: imgFerrovia,
     imageAlt: 'Mondo ferroviario e locomotiva treno passeggeri',
   },
   {
@@ -39,7 +44,7 @@ const PASSION_ITEMS: PassionItem[] = [
       'La tecnologia mi affascina per le infinite possibilità che offre. Dall\'informatica alla programmazione, fino all\'intelligenza artificiale, mi piace scoprire come funzionano le cose e come l\'innovazione possa trasformare le idee in realtà.',
       'Per me, la tecnologia non è solo ciò che esiste oggi, ma tutto ciò che possiamo ancora creare domani.',
     ],
-    image: '/src/assets/images/tecnologia_code_1791847302475.jpg',
+    image: imgTecnologia,
     imageAlt: 'Tecnologia, programmazione e intelligenza artificiale',
   },
   {
@@ -49,7 +54,7 @@ const PASSION_ITEMS: PassionItem[] = [
       'Mi piace unire creatività e tecnologia attraverso il video editing e lo sviluppo front-end. Amo curare i dettagli, sperimentare con il design e trasformare le idee in contenuti visivi e interfacce digitali. Dalle animazioni al codice, ogni progetto è un\'opportunità per imparare e migliorarmi.',
       'Creatività nell\'idea, precisione nel codice, identità in ogni progetto.',
     ],
-    image: '/src/assets/images/video_editing_suite_1791847303714.jpg',
+    image: imgVideo,
     imageAlt: 'Video editing suite e sviluppo front-end',
   },
   {
@@ -59,7 +64,7 @@ const PASSION_ITEMS: PassionItem[] = [
       'Il mio sogno è entrare un giorno nel mondo della Formula 1, magari in un team come Ferrari o Racing Bulls. Per avvicinarmi a questo ambiente, sto studiando cybersecurity, con l\'obiettivo di unire la mia passione per il motorsport alle opportunità offerte dalla tecnologia e dall\'informatica.',
       'Allo stesso tempo, coltivo un altro grande obiettivo: diventare macchinista ferroviario, trasformando la mia passione per i treni in una professione. Due mondi diversi, due grandi ambizioni. Il mio obiettivo è trovare la mia strada senza smettere di inseguire ciò che amo.',
     ],
-    image: '/src/assets/images/obbiettivi_vision_1791847303253.jpg',
+    image: imgObiettivi,
     imageAlt: 'I miei obbiettivi, visione e ambizione',
   },
 ];
@@ -131,7 +136,7 @@ export const PassionSection: React.FC = () => {
                     src={item.image}
                     alt={item.imageAlt}
                     loading="lazy"
-                    referrerPolicy="no-referrer"
+                    decoding="async"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute top-4 left-4 z-20 px-3.5 py-1.5 rounded-full bg-black/80 text-white text-[11px] sm:text-xs font-semibold tracking-wider uppercase font-['Kanit',sans-serif]">

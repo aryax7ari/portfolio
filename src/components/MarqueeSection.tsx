@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const GIF_URLS: string[] = [
@@ -34,35 +34,55 @@ const ROW_2_IMAGES = [...ROW_2_RAW, ...ROW_2_RAW, ...ROW_2_RAW];
 
 export const MarqueeSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const [offset, setOffset] = useState<number>(0);
+  const row1Ref = useRef<HTMLDivElement>(null);
+  const row2Ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    let animationFrameId: number;
+    let frame = 0;
+    let ticking = false;
 
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
+    // Aggiorna direttamente il DOM: niente re-render di React a ogni scroll
+    const update = () => {
+      ticking = false;
+      if (!sectionRef.current || !row1Ref.current || !row2Ref.current) return;
       const rect = sectionRef.current.getBoundingClientRect();
-      const sectionTop = window.scrollY + rect.top;
-      const currentOffset = (window.scrollY - sectionTop + window.innerHeight) * 0.3;
-
-      animationFrameId = requestAnimationFrame(() => {
-        setOffset(currentOffset);
-      });
+      const offset = (window.innerHeight - rect.top) * 0.3;
+      row1Ref.current.style.transform = `translate3d(${-2800 + offset - 200}px, 0, 0)`;
+      row2Ref.current.style.transform = `translate3d(${-1000 - (offset - 200)}px, 0, 0)`;
     };
 
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleScroll, { passive: true });
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      frame = requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleScroll);
-      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      cancelAnimationFrame(frame);
     };
   }, []);
 
-  const row1Shift = offset - 200;
-  const row2Shift = -(offset - 200);
+  const renderTile = (src: string, key: string, n: number) => (
+    <div
+      key={key}
+      className="w-[420px] h-[270px] shrink-0 rounded-2xl overflow-hidden bg-[#161616] border border-white/5 shadow-lg group relative"
+    >
+      <img
+        src={src}
+        alt={`Anteprima ${n}`}
+        loading="lazy"
+        decoding="async"
+        className="w-full h-full object-cover rounded-2xl transition-transform duration-500 group-hover:scale-105"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+    </div>
+  );
 
   return (
     <motion.section
@@ -76,52 +96,14 @@ export const MarqueeSection: React.FC = () => {
       style={{ overflowX: 'clip' }}
     >
       <div className="flex flex-col gap-3">
-        {/* Row 1 - Moves RIGHT on scroll */}
-        <div
-          className="flex gap-3 whitespace-nowrap"
-          style={{
-            transform: `translateX(calc(-2800px + ${row1Shift}px))`,
-            willChange: 'transform',
-          }}
-        >
-          {ROW_1_IMAGES.map((src, idx) => (
-            <div
-              key={`r1-${idx}`}
-              className="w-[420px] h-[270px] shrink-0 rounded-2xl overflow-hidden bg-[#161616] border border-white/5 shadow-lg group relative"
-            >
-              <img
-                src={src}
-                alt={`3D Animation showcase ${idx + 1}`}
-                loading="lazy"
-                className="w-full h-full object-cover rounded-2xl transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-            </div>
-          ))}
+        {/* Riga 1: scorre verso destra */}
+        <div ref={row1Ref} className="flex gap-3 whitespace-nowrap" style={{ willChange: 'transform' }}>
+          {ROW_1_IMAGES.map((src, idx) => renderTile(src, `r1-${idx}`, idx + 1))}
         </div>
 
-        {/* Row 2 - Moves LEFT on scroll */}
-        <div
-          className="flex gap-3 whitespace-nowrap"
-          style={{
-            transform: `translateX(calc(-1000px + ${row2Shift}px))`,
-            willChange: 'transform',
-          }}
-        >
-          {ROW_2_IMAGES.map((src, idx) => (
-            <div
-              key={`r2-${idx}`}
-              className="w-[420px] h-[270px] shrink-0 rounded-2xl overflow-hidden bg-[#161616] border border-white/5 shadow-lg group relative"
-            >
-              <img
-                src={src}
-                alt={`3D Animation showcase ${idx + 12}`}
-                loading="lazy"
-                className="w-full h-full object-cover rounded-2xl transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-            </div>
-          ))}
+        {/* Riga 2: scorre verso sinistra */}
+        <div ref={row2Ref} className="flex gap-3 whitespace-nowrap" style={{ willChange: 'transform' }}>
+          {ROW_2_IMAGES.map((src, idx) => renderTile(src, `r2-${idx}`, idx + 12))}
         </div>
       </div>
     </motion.section>

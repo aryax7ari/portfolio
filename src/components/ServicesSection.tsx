@@ -24,10 +24,10 @@ const SERVICES_DATA: ServiceItem[] = [
   {
     id: 2,
     number: '02',
-    tag: '3D Art & Interactive',
-    name: '3D Modeling & Motion Design',
+    tag: 'Video & Creatività',
+    name: 'Video Editing',
     description:
-      'Modellazione tridimensionale, animazioni procedurali e rendering fotorealistico per brand identity memorabili ed esperienze interattive avanzate.',
+      'Montaggio video creativo e curato nei dettagli: ritmo, transizioni e animazioni per trasformare le idee in contenuti visivi che restano impressi.',
   },
 ];
 
