@@ -15,6 +15,8 @@ interface ParallaxImageProps {
   label?: string;
   /** object-position CSS, per tenere a fuoco il soggetto quando la foto viene ritagliata */
   position?: string;
+  /** Classe Tailwind per le proporzioni della card (verticale di default, più larga per foto orizzontali) */
+  aspect?: string;
   className?: string;
 }
 
@@ -29,6 +31,7 @@ export const ParallaxImage: React.FC<ParallaxImageProps> = ({
   alt,
   label,
   position = 'center',
+  aspect = 'aspect-[4/5]',
   className = '',
 }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -67,7 +70,7 @@ export const ParallaxImage: React.FC<ParallaxImageProps> = ({
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
       style={{ rotateX, rotateY, transformPerspective: 1000 }}
-      className={`group relative w-full aspect-[4/5] rounded-[30px] sm:rounded-[40px] overflow-hidden border-2 border-black/20 bg-black/10 shadow-xl will-change-transform ${className}`}
+      className={`group relative w-full ${aspect} rounded-[30px] sm:rounded-[40px] overflow-hidden border-2 border-black/20 bg-black/10 shadow-xl will-change-transform ${className}`}
     >
       <motion.img
         src={src}

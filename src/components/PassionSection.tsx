@@ -2,13 +2,13 @@ import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { FadeIn } from './FadeIn.tsx';
 import { AppearingText } from './AppearingText.tsx';
-import { RevealText } from './RevealText.tsx';
+import { WordsReveal } from './WordsReveal.tsx';
 import { ParallaxImage } from './ParallaxImage.tsx';
 import imgFormula1 from '../assets/images/formula1_ferrari_storica.jpg';
 import imgFerrovia from '../assets/images/ferrovia_e403.jpg';
 import imgObiettivi from '../assets/images/obiettivi_crociera.jpg';
-import imgTecnologia from '../assets/illustrations/tecnologia.svg';
-import imgVideo from '../assets/illustrations/video-frontend.svg';
+import imgTecnologia from '../assets/images/tecnologia_code_1791847302475.jpg';
+import imgVideo from '../assets/images/video_editing_suite_1791847303714.jpg';
 
 interface PassionItem {
   id: number;
@@ -18,6 +18,8 @@ interface PassionItem {
   imageAlt: string;
   /** object-position: tiene a fuoco il soggetto quando la foto viene ritagliata */
   position?: string;
+  /** proporzioni della card: più larga per le foto orizzontali */
+  aspect?: string;
 }
 
 const PASSION_ITEMS: PassionItem[] = [
@@ -51,7 +53,9 @@ const PASSION_ITEMS: PassionItem[] = [
       "Per me, la tecnologia non è solo ciò che esiste oggi, ma tutto ciò che possiamo ancora creare domani.",
     ],
     image: imgTecnologia,
-    imageAlt: 'Illustrazione: scudo di cybersecurity con lucchetto, rete neurale e finestra di codice',
+    imageAlt: 'Tecnologia, programmazione e intelligenza artificiale',
+    position: '38% 50%',
+    aspect: 'aspect-[4/3]',
   },
   {
     id: 4,
@@ -61,7 +65,9 @@ const PASSION_ITEMS: PassionItem[] = [
       "Creatività nell'idea, precisione nel codice, identità in ogni progetto.",
     ],
     image: imgVideo,
-    imageAlt: 'Illustrazione: pagina web con codice e timeline di montaggio video',
+    imageAlt: 'Video editing suite e sviluppo front-end',
+    position: '40% 50%',
+    aspect: 'aspect-[4/3]',
   },
   {
     id: 5,
@@ -128,16 +134,17 @@ export const PassionSection: React.FC = () => {
                   className="font-black uppercase text-black tracking-tight leading-snug mb-4 sm:mb-6 font-['Kanit',sans-serif] select-none"
                   style={{ fontSize: 'clamp(1.8rem, 4vw, 3.2rem)' }}
                 >
-                  <RevealText text={item.title} />
+                  <AppearingText text={item.title} align="start" delay={0.1} />
                 </h3>
 
                 <div className="space-y-4 text-left">
                   {item.paragraphs.map((p, pIndex) => (
-                    <FadeIn key={pIndex} delay={0.25 + pIndex * 0.15} y={24}>
-                      <p className="text-black font-normal leading-relaxed text-base sm:text-lg md:text-xl font-['Kanit',sans-serif]">
-                        {p}
-                      </p>
-                    </FadeIn>
+                    <WordsReveal
+                      key={pIndex}
+                      text={p}
+                      delay={0.35 + pIndex * 0.6}
+                      className="text-black font-normal leading-relaxed text-base sm:text-lg md:text-xl font-['Kanit',sans-serif]"
+                    />
                   ))}
                 </div>
               </FadeIn>
@@ -150,6 +157,7 @@ export const PassionSection: React.FC = () => {
                   alt={item.imageAlt}
                   label={item.title}
                   position={item.position}
+                  aspect={item.aspect}
                 />
               </div>
             );

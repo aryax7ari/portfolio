@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FadeIn } from './FadeIn.tsx';
 import { AppearingText } from './AppearingText.tsx';
+import { WordsReveal } from './WordsReveal.tsx';
 import { Code2 } from 'lucide-react';
 
 export interface ServiceItem {
@@ -93,13 +94,15 @@ export const ServicesSection: React.FC = () => {
                       className="font-black uppercase text-[#0C0C0C] tracking-tight leading-snug"
                       style={{ fontSize: 'clamp(1.4rem, 2.8vw, 2.5rem)' }}
                     >
-                      {service.name}
+                      <AppearingText text={service.name} align="start" delay={0.15} />
                     </h3>
 
                     {/* Service Description */}
-                    <p className="text-[#0C0C0C] font-normal leading-relaxed text-base sm:text-lg">
-                      {service.description}
-                    </p>
+                    <WordsReveal
+                      text={service.description}
+                      delay={0.5}
+                      className="text-[#0C0C0C] font-normal leading-relaxed text-base sm:text-lg"
+                    />
                   </div>
                 </div>
               </FadeIn>

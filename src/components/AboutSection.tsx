@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FadeIn } from './FadeIn.tsx';
 import { AppearingText } from './AppearingText.tsx';
+import { WordsReveal } from './WordsReveal.tsx';
 
 // ============================================================================
 // CERTIFICAZIONI & ATTESTATI (MODIFICA DIRETTAMENTE QUI NEL CODICE)
@@ -75,24 +76,18 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onContactClick }) =>
 
         {/* Clean Static Paragraph with Canva Rise signature easing curve */}
         <div className="w-full max-w-[760px] px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-30px' }}
-            transition={{
-              duration: 0.9,
-              delay: 0.15,
-              ease: [0.16, 1, 0.3, 1], // Canva Rise signature easing curve
-            }}
-            className="w-full space-y-5"
-          >
-            <p className="text-[#D7E2EA] font-normal text-center leading-relaxed text-base sm:text-lg md:text-xl">
-              Sono una persona curiosa e determinata, sempre alla ricerca di nuove idee e cose da imparare. Mi appassionano la tecnologia, la Formula 1 e il mondo ferroviario, ma amo anche esprimere la mia creatività attraverso il video editing, il design e l&apos;intelligenza artificiale.
-            </p>
-            <p className="text-[#D7E2EA]/90 font-normal text-center leading-relaxed text-base sm:text-lg md:text-xl">
-              Mi piace esplorare nuovi ambiti, sperimentare e trasformare le idee.
-            </p>
-          </motion.div>
+          <div className="w-full space-y-5">
+            <WordsReveal
+              text="Sono una persona curiosa e determinata, sempre alla ricerca di nuove idee e cose da imparare. Mi appassionano la tecnologia, la Formula 1 e il mondo ferroviario, ma amo anche esprimere la mia creatività attraverso il video editing, il design e l'intelligenza artificiale."
+              delay={0.3}
+              className="text-[#D7E2EA] font-normal text-center leading-relaxed text-base sm:text-lg md:text-xl"
+            />
+            <WordsReveal
+              text="Mi piace esplorare nuovi ambiti, sperimentare e trasformare le idee."
+              delay={1.5}
+              className="text-[#D7E2EA]/90 font-normal text-center leading-relaxed text-base sm:text-lg md:text-xl"
+            />
+          </div>
         </div>
 
         {/* Gap between text block and button */}

@@ -168,22 +168,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
         </motion.div>
       </div>
 
-      {/* 3. Indicatore di scroll: una linea che si disegna e si cancella in loop */}
-      <div className="w-full pb-8 flex justify-center pointer-events-none" aria-hidden="true">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.8, duration: 0.8 }}
-          className="flex flex-col items-center gap-3 text-white/50 text-[10px] uppercase tracking-[0.35em]"
-        >
-          <span>Scroll</span>
-          <motion.span
-            className="block w-px h-12 bg-gradient-to-b from-white/70 to-white/0"
-            animate={reduceMotion ? undefined : { scaleY: [0, 1, 1, 0], originY: [0, 0, 1, 1] }}
-            transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut', times: [0, 0.45, 0.55, 1] }}
-          />
-        </motion.div>
-      </div>
+      {/* 3. Spazio in fondo */}
+      <div className="w-full pb-8 pointer-events-none" />
     </section>
   );
 };

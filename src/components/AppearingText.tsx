@@ -6,50 +6,52 @@ interface AppearingTextProps {
   className?: string;
   delay?: number;
   hoverRed?: boolean;
+  /** 'center' per i titoli centrati, 'start' per i titoli allineati a sinistra */
+  align?: 'center' | 'start';
 }
 
+/**
+ * Titolo animato lettera per lettera: ogni lettera sale, si raddrizza e perde la sfocatura.
+ * Le parole restano intere (vanno a capo tra una parola e l'altra, mai a metà).
+ */
 export const AppearingText: React.FC<AppearingTextProps> = ({
   text,
   className = '',
   delay = 0,
   hoverRed = false,
+  align = 'center',
 }) => {
   const reduce = useReducedMotion();
-  const characters = Array.from(text);
+  const alignClass = align === 'start' ? 'text-left' : 'text-center';
 
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.04,
-        delayChildren: delay,
-      },
-    },
-  };
+  if (reduce) {
+    return <span className={`inline-block ${alignClass} ${className}`}>{text}</span>;
+  }
 
-  const childVariants: Variants = {
+  const containerVariants: Variants = { hidden: {}, visible: {} };
+
+  const letterVariants: Variants = {
     hidden: {
       opacity: 0,
       y: 40,
       rotateX: -50,
       filter: 'blur(8px)',
     },
-    visible: {
+    visible: (i: number) => ({
       opacity: 1,
       y: 0,
       rotateX: 0,
       filter: 'blur(0px)',
       transition: {
         duration: 0.85,
+        delay: delay + i * 0.04,
         ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
       },
-    },
+    }),
   };
 
-  if (reduce) {
-    return <span className={`inline-flex flex-wrap justify-center ${className}`}>{text}</span>;
-  }
+  const words = text.split(' ');
+  let letterIndex = 0;
 
   return (
     <motion.span
@@ -57,21 +59,31 @@ export const AppearingText: React.FC<AppearingTextProps> = ({
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
-      className={`inline-flex flex-wrap justify-center ${className} ${
+      className={`inline-block ${alignClass} ${className} ${
         hoverRed ? 'hover:text-red-600 transition-colors duration-300' : ''
       }`}
       style={{ perspective: 600 }}
       aria-label={text}
     >
-      {characters.map((char, index) => (
-        <motion.span
-          key={`${char}-${index}`}
-          variants={childVariants}
-          className="inline-block will-change-transform"
-          aria-hidden="true"
-        >
-          {char === ' ' ? ' ' : char}
-        </motion.span>
+      {words.map((word, wi) => (
+        <React.Fragment key={`${word}-${wi}`}>
+          <span className="inline-block whitespace-nowrap" aria-hidden="true">
+            {Array.from(word).map((char, ci) => {
+              const i = letterIndex++;
+              return (
+                <motion.span
+                  key={`${char}-${ci}`}
+                  custom={i}
+                  variants={letterVariants}
+                  className="inline-block will-change-transform"
+                >
+                  {char}
+                </motion.span>
+              );
+            })}
+          </span>
+          {wi < words.length - 1 ? ' ' : null}
+        </React.Fragment>
       ))}
     </motion.span>
   );
