@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion, useReducedMotion, type Variants } from 'framer-motion';
+import { effectVariants, type TextEffect } from './textEffects.ts';
 
 interface AppearingTextProps {
   text: string;
@@ -8,10 +9,12 @@ interface AppearingTextProps {
   hoverRed?: boolean;
   /** 'center' per i titoli centrati, 'start' per i titoli allineati a sinistra */
   align?: 'center' | 'start';
+  /** 'bounce' (Rimbalzo, predefinito) oppure 'descend' (Discesa) */
+  effect?: TextEffect;
 }
 
 /**
- * Titolo animato lettera per lettera: ogni lettera sale, si raddrizza e perde la sfocatura.
+ * Titolo animato lettera per lettera, con l'effetto Rimbalzo o Discesa in stile Canva.
  * Le parole restano intere (vanno a capo tra una parola e l'altra, mai a metà).
  */
 export const AppearingText: React.FC<AppearingTextProps> = ({
@@ -20,6 +23,7 @@ export const AppearingText: React.FC<AppearingTextProps> = ({
   delay = 0,
   hoverRed = false,
   align = 'center',
+  effect = 'bounce',
 }) => {
   const reduce = useReducedMotion();
   const alignClass = align === 'start' ? 'text-left' : 'text-center';
@@ -29,26 +33,7 @@ export const AppearingText: React.FC<AppearingTextProps> = ({
   }
 
   const containerVariants: Variants = { hidden: {}, visible: {} };
-
-  const letterVariants: Variants = {
-    hidden: {
-      opacity: 0,
-      y: 40,
-      rotateX: -50,
-      filter: 'blur(8px)',
-    },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      rotateX: 0,
-      filter: 'blur(0px)',
-      transition: {
-        duration: 0.85,
-        delay: delay + i * 0.04,
-        ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
-      },
-    }),
-  };
+  const letterVariants = effectVariants(effect, { delay, stagger: 0.05, distance: 56 });
 
   const words = text.split(' ');
   let letterIndex = 0;
@@ -62,7 +47,6 @@ export const AppearingText: React.FC<AppearingTextProps> = ({
       className={`inline-block ${alignClass} ${className} ${
         hoverRed ? 'hover:text-red-600 transition-colors duration-300' : ''
       }`}
-      style={{ perspective: 600 }}
       aria-label={text}
     >
       {words.map((word, wi) => (
