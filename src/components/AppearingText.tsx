@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, useReducedMotion, type Variants } from 'framer-motion';
-import { effectVariants, type TextEffect } from './textEffects.ts';
+import { effectVariants, fadeOnlyVariants, type TextEffect } from './textEffects.ts';
 
 interface AppearingTextProps {
   text: string;
@@ -16,6 +16,7 @@ interface AppearingTextProps {
 /**
  * Titolo animato lettera per lettera, con l'effetto Rimbalzo o Discesa in stile Canva.
  * Le parole restano intere (vanno a capo tra una parola e l'altra, mai a metà).
+ * Con "riduci movimento" attivo nel sistema le lettere si dissolvono senza spostarsi.
  */
 export const AppearingText: React.FC<AppearingTextProps> = ({
   text,
@@ -28,12 +29,10 @@ export const AppearingText: React.FC<AppearingTextProps> = ({
   const reduce = useReducedMotion();
   const alignClass = align === 'start' ? 'text-left' : 'text-center';
 
-  if (reduce) {
-    return <span className={`inline-block ${alignClass} ${className}`}>{text}</span>;
-  }
-
   const containerVariants: Variants = { hidden: {}, visible: {} };
-  const letterVariants = effectVariants(effect, { delay, stagger: 0.05, distance: 56 });
+  const letterVariants = reduce
+    ? fadeOnlyVariants({ delay, stagger: 0.05 })
+    : effectVariants(effect, { delay, stagger: 0.05, distance: 56 });
 
   const words = text.split(' ');
   let letterIndex = 0;

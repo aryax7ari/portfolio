@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, useReducedMotion, type Variants } from 'framer-motion';
-import { effectVariants, type TextEffect } from './textEffects.ts';
+import { effectVariants, fadeOnlyVariants, type TextEffect } from './textEffects.ts';
 
 interface WordsRevealProps {
   text: string;
@@ -16,7 +16,8 @@ interface WordsRevealProps {
 
 /**
  * Paragrafo animato parola per parola, con l'effetto Discesa o Rimbalzo in stile Canva.
- * Parte quando il testo entra nello schermo. Con "riduci movimento" attivo il testo è subito visibile.
+ * Parte quando il testo entra nello schermo.
+ * Con "riduci movimento" attivo nel sistema le parole si dissolvono senza spostarsi.
  */
 export const WordsReveal: React.FC<WordsRevealProps> = ({
   text,
@@ -29,12 +30,10 @@ export const WordsReveal: React.FC<WordsRevealProps> = ({
   const reduce = useReducedMotion();
   const Tag = as === 'p' ? motion.p : motion.span;
 
-  if (reduce) {
-    return as === 'p' ? <p className={className}>{text}</p> : <span className={className}>{text}</span>;
-  }
-
   const container: Variants = { hidden: {}, visible: {} };
-  const word = effectVariants(effect, { delay, stagger, distance: 24 });
+  const word = reduce
+    ? fadeOnlyVariants({ delay, stagger })
+    : effectVariants(effect, { delay, stagger, distance: 24 });
 
   const words = text.split(' ');
 

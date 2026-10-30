@@ -13,6 +13,18 @@ const SMOOTH_OUT: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const BOUNCE_TIMES = [0, 0.38, 0.58, 0.74, 0.88, 1];
 const BOUNCE_EASE: Easing[] = ['easeIn', 'easeOut', 'easeIn', 'easeOut', 'easeIn'];
 
+/**
+ * Versione per chi ha "riduci movimento" attivo nel sistema: nessuno spostamento,
+ * solo una dissolvenza morbida, un elemento dopo l'altro.
+ */
+export const fadeOnlyVariants = ({ delay, stagger }: { delay: number; stagger: number }): Variants => ({
+  hidden: { opacity: 0 },
+  visible: (i: number) => ({
+    opacity: 1,
+    transition: { duration: 0.6, delay: delay + i * stagger * 0.5, ease: 'easeOut' },
+  }),
+});
+
 interface EffectOptions {
   /** Ritardo iniziale in secondi */
   delay: number;
