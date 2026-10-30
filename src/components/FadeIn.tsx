@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, type HTMLMotionProps } from 'framer-motion';
+import { motion, useReducedMotion, type HTMLMotionProps } from 'framer-motion';
 
 interface FadeInProps {
   children: React.ReactNode;
@@ -12,30 +12,31 @@ interface FadeInProps {
 }
 
 /**
- * Canva "Salita" (Rise) animation preset:
- * Rises smoothly from below (y: 60) up to position with clean opacity fade
- * and Canva's signature fluid deceleration curve [0.16, 1, 0.3, 1].
+ * Preset "Salita" (Rise): il contenuto sale con un leggero zoom e una dissolvenza,
+ * con una curva di decelerazione morbida in stile Apple. Con "riduci movimento"
+ * attivo nel sistema resta solo la dissolvenza.
  */
 export const FadeIn: React.FC<FadeInProps> = ({
   children,
   delay = 0,
-  duration = 0.85,
+  duration = 1,
   x = 0,
-  y = 60, // Canva Salita / Rise default vertical offset
+  y = 60,
   className = '',
   as = 'div',
 }) => {
+  const reduce = useReducedMotion();
   const MotionComponent = motion[as as keyof typeof motion] as React.ComponentType<HTMLMotionProps<any>>;
 
   return (
     <MotionComponent
-      initial={{ opacity: 0, x, y }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
+      initial={reduce ? { opacity: 0 } : { opacity: 0, x, y, scale: 0.97 }}
+      whileInView={reduce ? { opacity: 1 } : { opacity: 1, x: 0, y: 0, scale: 1 }}
       viewport={{ once: true, margin: '-30px', amount: 0.15 }}
       transition={{
         duration,
         delay,
-        ease: [0.16, 1, 0.3, 1], // Canva Rise signature easing
+        ease: [0.16, 1, 0.3, 1],
       }}
       className={className}
     >

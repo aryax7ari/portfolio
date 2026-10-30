@@ -62,13 +62,18 @@ export const ServicesSection: React.FC = () => {
                 key={service.id}
                 delay={0.1 * (index + 1)}
                 y={60}
-                className="border-b border-[rgba(12,12,12,0.15)]"
+                className="group relative overflow-hidden border-b border-[rgba(12,12,12,0.15)]"
               >
-                <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 md:gap-12 py-10 sm:py-12 md:py-14">
+                {/* velo che si apre da sinistra al passaggio del mouse */}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 origin-left scale-x-0 bg-[#0C0C0C]/[0.04] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100"
+                />
+                <div className="relative flex flex-col md:flex-row md:items-start justify-between gap-6 md:gap-12 py-10 sm:py-12 md:py-14 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] md:group-hover:translate-x-3">
                   {/* Service Number */}
                   <div className="shrink-0 flex items-center pt-2">
                     <span
-                      className="font-black text-[#0C0C0C] leading-none select-none tracking-tighter w-28 sm:w-36"
+                      className="font-black text-[#0C0C0C] group-hover:text-red-600 transition-colors duration-500 leading-none select-none tracking-tighter w-28 sm:w-36"
                       style={{ fontSize: 'clamp(3.5rem, 8vw, 120px)' }}
                     >
                       {service.number}

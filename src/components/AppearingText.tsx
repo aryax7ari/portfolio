@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, type Variants } from 'framer-motion';
+import { motion, useReducedMotion, type Variants } from 'framer-motion';
 
 interface AppearingTextProps {
   text: string;
@@ -14,6 +14,7 @@ export const AppearingText: React.FC<AppearingTextProps> = ({
   delay = 0,
   hoverRed = false,
 }) => {
+  const reduce = useReducedMotion();
   const characters = Array.from(text);
 
   const containerVariants: Variants = {
@@ -21,7 +22,7 @@ export const AppearingText: React.FC<AppearingTextProps> = ({
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.035,
+        staggerChildren: 0.04,
         delayChildren: delay,
       },
     },
@@ -30,19 +31,25 @@ export const AppearingText: React.FC<AppearingTextProps> = ({
   const childVariants: Variants = {
     hidden: {
       opacity: 0,
-      y: 25,
-      filter: 'blur(6px)',
+      y: 40,
+      rotateX: -50,
+      filter: 'blur(8px)',
     },
     visible: {
       opacity: 1,
       y: 0,
+      rotateX: 0,
       filter: 'blur(0px)',
       transition: {
-        duration: 0.5,
-        ease: [0.2, 0.65, 0.3, 0.9] as [number, number, number, number],
+        duration: 0.85,
+        ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
       },
     },
   };
+
+  if (reduce) {
+    return <span className={`inline-flex flex-wrap justify-center ${className}`}>{text}</span>;
+  }
 
   return (
     <motion.span
@@ -53,14 +60,17 @@ export const AppearingText: React.FC<AppearingTextProps> = ({
       className={`inline-flex flex-wrap justify-center ${className} ${
         hoverRed ? 'hover:text-red-600 transition-colors duration-300' : ''
       }`}
+      style={{ perspective: 600 }}
+      aria-label={text}
     >
       {characters.map((char, index) => (
         <motion.span
           key={`${char}-${index}`}
           variants={childVariants}
-          className="inline-block"
+          className="inline-block will-change-transform"
+          aria-hidden="true"
         >
-          {char === ' ' ? '\u00A0' : char}
+          {char === ' ' ? ' ' : char}
         </motion.span>
       ))}
     </motion.span>

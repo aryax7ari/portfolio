@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, useReducedMotion } from 'framer-motion';
 import { FadeIn } from './FadeIn.tsx';
 import { AstancaiRobertLogo } from './AstancaiRobertLogo.tsx';
 import { AppearingText } from './AppearingText.tsx';
@@ -10,6 +10,7 @@ interface HeroSectionProps {
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
   const sectionRef = useRef<HTMLElement>(null);
+  const reduceMotion = useReducedMotion();
 
   // Subtle scroll parallax
   const { scrollYProgress } = useScroll({
@@ -139,20 +140,50 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onContactClick }) => {
             className="absolute inset-0 flex items-center justify-center z-20 pointer-events-auto cursor-pointer"
             style={{ transform: 'rotate(-8deg)' }}
           >
-            <span
-              className="font-['Caveat',_'Marck_Script',_cursive] font-bold tracking-wide leading-none text-[#FACC15] hover:text-[#FDE047] text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] xl:text-[8.5rem] select-none transition-colors duration-200"
-              style={{
-                fontFamily: "'Caveat', 'Marck Script', cursive",
+            {/* Entrata: il logo sale e si ingrandisce un attimo dopo la scritta */}
+            <motion.span
+              initial={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.85, y: 30 }}
+              animate={reduceMotion ? { opacity: 1 } : { opacity: 1, scale: 1, y: 0 }}
+              transition={{
+                duration: reduceMotion ? 0.6 : 1.1,
+                delay: reduceMotion ? 0 : 0.9,
+                ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
               }}
+              whileHover={reduceMotion ? undefined : { scale: 1.04 }}
+              className="inline-block"
             >
-              Astancai Robert
-            </span>
+              {/* Dopo l'entrata il logo galleggia piano, in loop */}
+              <motion.span
+                animate={reduceMotion ? undefined : { y: [0, -9, 0] }}
+                transition={{ duration: 6, delay: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+                className="inline-block font-['Caveat',_'Marck_Script',_cursive] font-bold tracking-wide leading-none text-[#FACC15] hover:text-[#FDE047] text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] xl:text-[8.5rem] select-none transition-colors duration-200"
+                style={{
+                  fontFamily: "'Caveat', 'Marck Script', cursive",
+                }}
+              >
+                Astancai Robert
+              </motion.span>
+            </motion.span>
           </div>
         </motion.div>
       </div>
 
-      {/* 3. Bottom spacing without any red dot */}
-      <div className="w-full pb-8 pointer-events-none" />
+      {/* 3. Indicatore di scroll: una linea che si disegna e si cancella in loop */}
+      <div className="w-full pb-8 flex justify-center pointer-events-none" aria-hidden="true">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.8, duration: 0.8 }}
+          className="flex flex-col items-center gap-3 text-white/50 text-[10px] uppercase tracking-[0.35em]"
+        >
+          <span>Scroll</span>
+          <motion.span
+            className="block w-px h-12 bg-gradient-to-b from-white/70 to-white/0"
+            animate={reduceMotion ? undefined : { scaleY: [0, 1, 1, 0], originY: [0, 0, 1, 1] }}
+            transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut', times: [0, 0.45, 0.55, 1] }}
+          />
+        </motion.div>
+      </div>
     </section>
   );
 };

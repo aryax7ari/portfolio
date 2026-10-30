@@ -28,6 +28,45 @@
   background-clip: text;
 }
 
+/* Riquadri ancora vuoti della sezione Project: un riflesso luminoso li attraversa piano */
+.frame-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.06) 50%, transparent 70%);
+  transform: translateX(-100%);
+  animation: frame-shimmer 5.5s ease-in-out infinite;
+  pointer-events: none;
+}
+.frame-shimmer:nth-child(2)::after {
+  animation-delay: 0.6s;
+}
+@keyframes frame-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  60%,
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Chi ha attivato "riduci movimento" nel sistema non vede animazioni continue né scroll animato */
+@media (prefers-reduced-motion: reduce) {
+  html,
+  body,
+  #root {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

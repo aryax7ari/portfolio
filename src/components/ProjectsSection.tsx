@@ -73,7 +73,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onContactClick
               {/* Left column (40% width) with 2 stacked frames */}
               <div className="w-full md:w-[40%] flex flex-col gap-4 sm:gap-5">
                 <div
-                  className="w-full rounded-[30px] sm:rounded-[40px] bg-white/[0.02] border border-white/10 flex items-center justify-center"
+                  className="w-full rounded-[30px] sm:rounded-[40px] frame-shimmer relative overflow-hidden bg-white/[0.02] border border-white/10 flex items-center justify-center"
                   style={{ height: 'clamp(150px, 18vw, 240px)' }}
                 >
                   <span className="text-white/20 text-xs font-mono uppercase tracking-widest">
@@ -82,7 +82,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onContactClick
                 </div>
 
                 <div
-                  className="w-full rounded-[30px] sm:rounded-[40px] bg-white/[0.02] border border-white/10 flex items-center justify-center"
+                  className="w-full rounded-[30px] sm:rounded-[40px] frame-shimmer relative overflow-hidden bg-white/[0.02] border border-white/10 flex items-center justify-center"
                   style={{ height: 'clamp(180px, 24vw, 340px)' }}
                 >
                   <span className="text-white/20 text-xs font-mono uppercase tracking-widest">
@@ -93,7 +93,7 @@ export const ProjectsSection: React.FC<ProjectsSectionProps> = ({ onContactClick
 
               {/* Right column (60% width) with 1 tall frame */}
               <div
-                className="w-full md:w-[60%] rounded-[30px] sm:rounded-[40px] bg-white/[0.02] border border-white/10 flex items-center justify-center"
+                className="w-full md:w-[60%] rounded-[30px] sm:rounded-[40px] frame-shimmer relative overflow-hidden bg-white/[0.02] border border-white/10 flex items-center justify-center"
                 style={{
                   minHeight: 'clamp(340px, 42vw, 600px)',
                 }}
