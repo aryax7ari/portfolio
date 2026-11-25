@@ -1,0 +1,5 @@
+{"phase":"Fase 1 — Ricerca e infrastruttura","version":"pre-baseline","deadline":"2027-01-31",
+"cfd":"Non avviata (nessun solver installato)","progress":10,
+"agents":[["01 Chief Engineer","attivo"],["02 Regulations","in attesa PDF FIA"],["03 Aero","idle"],["04 CAD","idle"],["05 CFD","idle"],["06 Data","idle"],["07 Performance","idle"],["08 Media","idle"]],
+"done":["Repo e struttura","Ruoli agenti","Report tecnici iniziali","Dashboard"],
+"pending":["hw_probe sul laptop","Scaricare PDF FIA","Installare Blender/OpenFOAM","Baseline geometry","Test CFD Livello 1"]}

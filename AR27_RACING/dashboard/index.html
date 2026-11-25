@@ -1,0 +1,18 @@
+<!doctype html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AR27 Telemetry</title>
+<style>:root{--r:#e10600}*{box-sizing:border-box}body{margin:0;background:#000;color:#fff;font:14px ui-monospace,Menlo,monospace;padding:16px}
+h1{font-size:18px;letter-spacing:.2em;border-left:4px solid var(--r);padding-left:10px}h2{color:var(--r);font-size:12px;letter-spacing:.15em;margin:0 0 8px}
+.g{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}.c{border:1px solid #333;padding:12px}.big{font-size:32px;color:var(--r)}
+.bar{height:8px;background:#222}.bar i{display:block;height:100%;background:var(--r)}ul{margin:0;padding-left:18px}li{margin:3px 0}</style></head><body>
+<h1>AR27 RACING · AR27-01</h1><div class="g" id="g">caricamento…</div>
+<script>
+const $=(t,b)=>`<div class="c"><h2>${t}</h2>${b}</div>`;
+const L=a=>"<ul>"+a.map(x=>`<li>${x}</li>`).join("")+"</ul>";
+fetch("status.json").then(r=>r.json()).then(s=>{
+ const d=Math.ceil((new Date(s.deadline)-new Date())/864e5);
+ const m=performance&&performance.memory?(performance.memory.usedJSHeapSize/1048576).toFixed(0)+" MB (heap browser)":"n/d";
+ g.innerHTML=$("GIORNI ALLA SCADENZA",`<div class="big">${d}</div>`)+
+ $("FASE",s.phase+`<div class="bar"><i style="width:${s.progress}%"></i></div>${s.progress}%`)+
+ $("VERSIONE AUTO",s.version)+$("STATO CFD",s.cfd)+$("MEMORIA",m)+
+ $("AGENTI",L(s.agents.map(a=>a.join(" — "))))+$("COMPLETATI",L(s.done))+$("DA FARE",L(s.pending));
+}).catch(()=>g.textContent="Apri tramite server locale: python3 -m http.server");
+</script></body></html>

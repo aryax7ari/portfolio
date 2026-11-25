@@ -1,0 +1,10 @@
+# Large CFD / CAD artefacts stay local
+cfd/**/processor*/
+cfd/**/[0-9]*/
+cfd/**/*.foam
+cfd/results/**/*.vtk
+cfd/results/**/*.vtu
+research/regulations/*.pdf
+*.blend1
+__pycache__/
+backups/
